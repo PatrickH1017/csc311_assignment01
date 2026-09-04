@@ -107,55 +107,64 @@ public abstract class Vehicle implements Honkable {
      * ------------------------------------------------------------------ */
 
     public String getVin() {
-        throw new UnsupportedOperationException("TODO-03");
+        return vin;
     }
 
     public String getMake() {
-        throw new UnsupportedOperationException("TODO-03");
+        return make;
     }
 
     public String getModel() {
-        throw new UnsupportedOperationException("TODO-03");
+        return model;
     }
 
     public int getYear() {
-        throw new UnsupportedOperationException("TODO-03");
+        return year;
     }
 
     public void setYear(int year) {
-        throw new UnsupportedOperationException("TODO-03");
+        if (year < 1900 || year > 2100) {
+            throw new IllegalArgumentException("year must be between 1900 and 2100: " + year);
+        }
+        this.year = year;
     }
 
     public String getColor() {
-        throw new UnsupportedOperationException("TODO-03");
+        return color;
     }
 
     public void setColor(String color) {
-        throw new UnsupportedOperationException("TODO-03");
+        this.color = requireNonBlank("color", color);
     }
 
     public int getWheels() {
-        throw new UnsupportedOperationException("TODO-03");
+        return wheels;
     }
 
     public void setWheels(int wheels) {
-        throw new UnsupportedOperationException("TODO-03");
+        if (wheels < 2 || wheels > 18) {
+            throw new IllegalArgumentException("wheels must be between 2 and 18: " + wheels);
+        }
+        this.wheels = wheels;
     }
 
     public double getEngineSize() {
-        throw new UnsupportedOperationException("TODO-03");
+        return engineSize;
     }
 
     public FuelType getFuelType() {
-        throw new UnsupportedOperationException("TODO-03");
+        return fuelType;
     }
 
     public double getFuelCapacity() {
-        throw new UnsupportedOperationException("TODO-03");
+        return fuelCapacity;
     }
 
     public void setFuelCapacity(double fuelCapacity) {
-        throw new UnsupportedOperationException("TODO-03");
+        if (!(fuelCapacity > 0.0)) {
+            throw new IllegalArgumentException("fuelCapacity must be above 0.0: " + fuelCapacity);
+        }
+        this.fuelCapacity = fuelCapacity;
     }
 
     /* ------------------------------------------------------------------
