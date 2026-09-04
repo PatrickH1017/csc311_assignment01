@@ -182,12 +182,17 @@ public abstract class Vehicle implements Honkable {
 
     @Override
     public void honk() {
-        throw new UnsupportedOperationException("TODO-04");
+        System.out.println(hornSound());
     }
 
     @Override
     public void honk(int times) {
-        throw new UnsupportedOperationException("TODO-04");
+        if (times < 1) {
+            throw new IllegalArgumentException("times must be at least 1: " + times);
+        }
+        for (int i = 0; i < times; i++) {
+            System.out.println(hornSound());
+        }
     }
 
     /** Subclasses answer these two. Do not write bodies here. */
