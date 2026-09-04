@@ -42,9 +42,60 @@ public abstract class Vehicle implements Honkable {
      * a private static helper and call it three times.
      * ------------------------------------------------------------------ */
 
+    private final String vin;
+    private final String make;
+    private final String model;
+    private int year;
+    private String color;
+    private int wheels;
+    private final double engineSize;
+    private final FuelType fuelType;
+    private double fuelCapacity;
+
     protected Vehicle(String vin, String make, String model, int year, String color,
                       int wheels, double engineSize, FuelType fuelType, double fuelCapacity) {
-        throw new UnsupportedOperationException("TODO-02");
+        if (vin == null) {
+            throw new IllegalArgumentException("vin cannot be null: " + vin);
+        }
+        String trimmedVin = vin.trim();
+        if (trimmedVin.length() != 17) {
+            throw new IllegalArgumentException("vin must be exactly 17 characters: " + vin);
+        }
+        this.vin = trimmedVin.toUpperCase();
+
+        this.make = requireNonBlank("make", make);
+        this.model = requireNonBlank("model", model);
+
+        if (fuelType == null) {
+            throw new IllegalArgumentException("fuelType cannot be null: " + fuelType);
+        }
+        this.fuelType = fuelType;
+
+        if (fuelType.hasEngine()) {
+            if (!(engineSize > 0.0 && engineSize <= 8.5)) {
+                throw new IllegalArgumentException(
+                        "engineSize must be above 0.0 and at most 8.5 for " + fuelType + ": " + engineSize);
+            }
+        } else {
+            if (engineSize != 0.0) {
+                throw new IllegalArgumentException(
+                        "engineSize must be exactly 0.0 for " + fuelType + ": " + engineSize);
+            }
+        }
+        this.engineSize = engineSize;
+
+        setYear(year);
+        setColor(color);
+        setWheels(wheels);
+        setFuelCapacity(fuelCapacity);
+    }
+
+    /** Shared not-null/not-blank check for make, model and color. */
+    private static String requireNonBlank(String fieldName, String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException(fieldName + " cannot be null or blank: " + value);
+        }
+        return value.trim();
     }
 
     /* ------------------------------------------------------------------
