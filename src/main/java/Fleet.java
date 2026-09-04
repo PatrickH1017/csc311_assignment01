@@ -169,18 +169,67 @@ public class Fleet {
      * ------------------------------------------------------------------ */
 
     public Vehicle[] sortedByYear() {
-        throw new UnsupportedOperationException("TODO-09");
+        Vehicle[] result = toArray();
+
+        for (int i = 0; i < result.length - 1; i++) {
+            int bestIndex = i;
+            for (int j = i + 1; j < result.length; j++) {
+                if (isBefore(result[j], result[bestIndex])) {
+                    bestIndex = j;
+                }
+            }
+            if (bestIndex != i) {
+                Vehicle temp = result[i];
+                result[i] = result[bestIndex];
+                result[bestIndex] = temp;
+            }
+        }
+        return result;
+    }
+
+    /** True when a should sort ahead of b: earlier year, then make A-Z. */
+    private boolean isBefore(Vehicle a, Vehicle b) {
+        if (a.getYear() != b.getYear()) {
+            return a.getYear() < b.getYear();
+        }
+        return a.getMake().compareToIgnoreCase(b.getMake()) < 0;
     }
 
     public int countWithFuelType(FuelType fuel) {
-        throw new UnsupportedOperationException("TODO-09");
+        int total = 0;
+        for (int i = 0; i < count; i++) {
+            if (vehicles[i].getFuelType() == fuel) {
+                total++;
+            }
+        }
+        return total;
     }
 
     public double averageEngineSize() {
-        throw new UnsupportedOperationException("TODO-09");
+        double sum = 0.0;
+        int engineCount = 0;
+        for (int i = 0; i < count; i++) {
+            if (vehicles[i].getFuelType().hasEngine()) {
+                sum += vehicles[i].getEngineSize();
+                engineCount++;
+            }
+        }
+        if (engineCount == 0) {
+            return 0.0;
+        }
+        return sum / engineCount;
     }
 
     public Vehicle longestRange() {
-        throw new UnsupportedOperationException("TODO-09");
+        if (count == 0) {
+            return null;
+        }
+        Vehicle best = vehicles[0];
+        for (int i = 1; i < count; i++) {
+            if (vehicles[i].rangeInMiles() > best.rangeInMiles()) {
+                best = vehicles[i];
+            }
+        }
+        return best;
     }
 }
